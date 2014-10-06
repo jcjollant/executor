@@ -17,6 +17,11 @@ public class Executor {
 		while( lse.isAlive() || nyse.isAlive()) {
 			if( !lse.isAlive()) System.out.println( "Warning LSE is down");
 			if( !nyse.isAlive()) System.out.println( "Warning NYSE is down");
+			try {
+				Thread.sleep( 5000);
+			} catch( InterruptedException ie) {
+				break;
+			}
 		}
 		
 		System.out.println( "Graceful termination");

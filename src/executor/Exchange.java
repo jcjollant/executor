@@ -21,7 +21,7 @@ public abstract class Exchange extends Thread {
 		try {
 			socket = new ServerSocket( this.port);
 		} catch( IOException ioe) {
-			System.out.println( "Could create " + this.name + " server socket because " + ioe.getMessage());
+			System.out.println( "Could not create " + this.name + " server socket because " + ioe.getMessage());
 			return;
 		}
 		System.out.println( "Listenning for " + this.name + " incomming connections on " + socket.getLocalPort());
@@ -54,7 +54,10 @@ public abstract class Exchange extends Thread {
 					byte inputBuffer[] = new byte[1024];
 					int bufferSize = 0;
 					while( ( bufferSize += is.read( inputBuffer)) != -1 ) {
+						System.out.println( this.name + " received " + bufferSize + " bytes");
 						if( bufferSize >= this.newOrder.getSize()) {
+							System.out.println( this.name + " Received " + bufferSize + " bytes");
+							System.out.println( Display.bytesToHex( inputBuffer, bufferSize));
 							this.newOrder.decode( inputBuffer);
 							System.arraycopy( inputBuffer, this.newOrder.getSize(), inputBuffer, 0, bufferSize - this.newOrder.getSize());
 							try {
@@ -63,21 +66,23 @@ public abstract class Exchange extends Thread {
 							} catch( Exception e) {
 								System.out.println( "Could not encode response because " + e.getMessage());
 							}
+							bufferSize -= this.newOrder.getSize();
 							
+							// send the response
+							try {
+								byte bb[] = this.executionReport.getBytes();
+								os.write( bb);
+								System.out.println( this.name + " Sent " + bb.length + " bytes to destination");
+								System.out.println( Display.bytesToHex(bb, bb.length));
+							} catch(IOException ioe) {
+								System.out.println("Could not send response because " + ioe.getMessage());
+								break;
+							}
 						}
 					}
 				} catch( Exception e) {
 					System.out.println( "Could not process order because " + e.getMessage() );
 					break;
-				}
-				// just send the response
-				try {
-					byte bb[] = this.executionReport.getBytes();
-					os.write( bb);
-					System.out.println("Sent " + bb.length + " bytes to destination");
-					System.out.println( Display.bytesToHex(bb));
-				} catch(IOException ioe) {
-					System.out.println("Could not send response because " + ioe.getMessage());
 				}
 			}
 			
