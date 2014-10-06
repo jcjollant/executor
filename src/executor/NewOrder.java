@@ -5,7 +5,14 @@ public abstract class NewOrder extends Message {
 		super( e, size);
 	}
 	
-	public abstract void decode( byte bb[]) throws Exception;
+	public void decode( byte bb[]) throws Exception {
+		this.bytes = bb;
+	}
+	
+	@Override
+	public String toString() {
+		return "clOrdID=" + this.clOrdID + ", side=" + this.side + ", quantity=" + this.quantity;
+	}
 	
 	public String clOrdID;
 	public byte side;

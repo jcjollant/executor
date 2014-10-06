@@ -25,8 +25,13 @@ public class LSEExecutionReport extends ExecutionReport {
 		encode( Display.randomString(12), 54, 12);
 		
 		// OrdStatus 1@66 always filled=2
-		encode( (byte)2, 66);
-		// Order Reject COde 4@67 ignored
+		if( this.quantity == 666) {
+			encode( (byte)8, 66);
+		} else {
+			encode( (byte)2, 66);
+		}
+		
+		// Order Reject Code 4@67 ignored
 		
 		// ExecutedPrice 8@71 TODO read from order
 		long executedPrice = this.executedPrice;
@@ -73,6 +78,11 @@ public class LSEExecutionReport extends ExecutionReport {
 		super.populate(no);
 		this.instrumentID = no.instrumentID;
 		this.executedPrice = no.price;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + ", instrumentID=" + this.instrumentID + ", executedPrice=" + this.executedPrice;
 	}
 	
 	protected int instrumentID;

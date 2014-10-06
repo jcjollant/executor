@@ -54,8 +54,13 @@ public class Message {
 	}
 
 	public String decodeString( int position, int length) {
-		byte bytes[] = new byte[length];
-		System.arraycopy( this.bytes, position, bytes, 0, length);
+		// look for the first 0 before length
+		int index = position;
+		for( ;index < position + length && this.bytes[index] != 0; index++){}
+		int shortLength = index - position;
+		
+		byte bytes[] = new byte[shortLength];
+		System.arraycopy( this.bytes, position, bytes, 0, shortLength);
 		return new String( bytes);
 	}
 	
@@ -133,7 +138,8 @@ public class Message {
 		Arrays.fill( this.bytes, (byte)0);
 	}
 	
+	protected byte[] bytes;
+	
 	private Endianness endiannes;
-	private byte[] bytes;
 	private int size;
 }

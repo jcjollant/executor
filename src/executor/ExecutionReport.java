@@ -17,6 +17,11 @@ public abstract class ExecutionReport extends Message {
 		this.quantity = no.quantity;
 	}
 	
+	@Override
+	public String toString() {
+		return "side=" + this.side + ", clOrdID=" + this.clOrdID + ", quantity=" + this.quantity;
+	}
+	
 	protected int seqNum;
 	
 	protected byte side;

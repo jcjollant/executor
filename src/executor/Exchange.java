@@ -24,11 +24,11 @@ public abstract class Exchange extends Thread {
 			System.out.println( "Could not create " + this.name + " server socket because " + ioe.getMessage());
 			return;
 		}
-		System.out.println( "Listenning for " + this.name + " incomming connections on " + socket.getLocalPort());
 		
 		// this loop if for all connections
 		while( true) {
 			Socket clientSocket = null;
+			System.out.println( "Listenning for " + this.name + " incomming connections on " + socket.getLocalPort() + ". Thread ID=" + Thread.currentThread().getId());
 			try {
 				clientSocket = socket.accept();
 			} catch( IOException ioe) {
@@ -54,11 +54,14 @@ public abstract class Exchange extends Thread {
 					byte inputBuffer[] = new byte[1024];
 					int bufferSize = 0;
 					while( ( bufferSize += is.read( inputBuffer)) != -1 ) {
-						System.out.println( this.name + " received " + bufferSize + " bytes");
+						// System.out.println( this.name + " received " + bufferSize + " bytes");
 						if( bufferSize >= this.newOrder.getSize()) {
-							System.out.println( this.name + " Received " + bufferSize + " bytes");
-							System.out.println( Display.bytesToHex( inputBuffer, bufferSize));
+							System.out.println( this.name + " Received New Order (" + bufferSize + " bytes)");
 							this.newOrder.decode( inputBuffer);
+							System.out.println( this.name + ", Order: " + this.newOrder.toString());
+							System.out.println( Display.bytesToHex( inputBuffer, bufferSize));
+							
+							// copy remainder to the beginning of the buffer
 							System.arraycopy( inputBuffer, this.newOrder.getSize(), inputBuffer, 0, bufferSize - this.newOrder.getSize());
 							try {
 								this.executionReport.populate( this.newOrder);
@@ -72,7 +75,8 @@ public abstract class Exchange extends Thread {
 							try {
 								byte bb[] = this.executionReport.getBytes();
 								os.write( bb);
-								System.out.println( this.name + " Sent " + bb.length + " bytes to destination");
+								System.out.println( this.name + " Sent Execution Report (" + bb.length + " bytes)");
+								System.out.println( this.name + " ExecutionReport: " + this.executionReport.toString());
 								System.out.println( Display.bytesToHex(bb, bb.length));
 							} catch(IOException ioe) {
 								System.out.println("Could not send response because " + ioe.getMessage());

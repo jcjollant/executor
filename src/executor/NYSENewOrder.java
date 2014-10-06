@@ -8,6 +8,7 @@ public class NYSENewOrder extends NewOrder {
 	
 	@Override
 	public void decode(byte[] bb) throws Exception {
+		super.decode( bb);
 		
 		this.quantity = decodeInt32( 8);
 		this.price = decodeInt32(16);
@@ -16,6 +17,12 @@ public class NYSENewOrder extends NewOrder {
 		this.symbol = decodeString( 25, 11);
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString() + ", symbol=" + this.symbol + ", price=" + this.price;
+	}
+	
 	public String symbol;
 	public int price;
 }

@@ -82,6 +82,11 @@ public class NYSEExecutionReport extends ExecutionReport {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return super.toString() + ", lastPrice=" + this.lastPrice + ", symbol=" + this.symbol;
+	}
+	
 	protected int lastPrice;
 	protected String symbol;
 

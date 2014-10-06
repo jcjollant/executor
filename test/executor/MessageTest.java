@@ -114,41 +114,14 @@ public class MessageTest {
 		String decodedValue = msg.decodeString(5, testValue.length());
 
 		assertEquals( testValue, decodedValue);
+		
+		// Test with a string that's incomplete
+		msg.reset();
+		testValue = Display.randomString(10);
+		msg.encode( testValue, 0, msg.getSize());
+		decodedValue = msg.decodeString(0, msg.getSize());
+		
+		assertEquals( testValue, decodedValue);
 	}
-
-//	@Test
-//	public void testEncodeShortInt() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testEncodeIntInt() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testEncodeLongInt() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testEncodeStringIntInt() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetBytes() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetSize() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testReset() {
-//		fail("Not yet implemented");
-//	}
 
 }
