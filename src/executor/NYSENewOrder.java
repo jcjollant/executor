@@ -13,8 +13,8 @@ public class NYSENewOrder extends NewOrder {
 		this.quantity = decodeInt32( 8);
 		this.price = decodeInt32(16);
 		this.clOrdID = decodeString( 64, 17);
-		this.side = decodeInt8( 33);
-		this.symbol = decodeString( 25, 11);
+		this.side = decodeInt8( 23);
+		this.symbol = decodeString( 21, 11);
 	}
 
 	@Override
