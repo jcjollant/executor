@@ -123,12 +123,24 @@ public class Message {
 		if( val.length() > size) {
 			subString = val.substring( 0, size - 1);
 		} else {
-			subString = val;
+			// Right Padding
+			subString = String.format("%-" + size + "s", val);
 		}
 		System.arraycopy( subString.getBytes(), 0, this.bytes, position, subString.length());
 
 		return position + size;
 	}
+//	public int encode( String val, int position, int size) { 
+//		String subString;
+//		if( val.length() > size) {
+//			subString = val.substring( 0, size - 1);
+//		} else {
+//			subString = val;
+//		}
+//		System.arraycopy( subString.getBytes(), 0, this.bytes, position, subString.length());
+//
+//		return position + size;
+//	}
 	
 	public byte getByte( int position) { return bytes[position];}
 	public byte[] getBytes() { return bytes;}

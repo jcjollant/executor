@@ -29,7 +29,7 @@ public static String bytesToHex( byte[] bytes, int length) {
         	sb.append( " | ");
         	for( int index = 0; index < 16; index++) {
         		if( index == 8) sb.append( " - ");
-        		if( last16[index] < 32) {
+        		if( last16[index] < 32 || last16[index] > 126) {
         			sb.append('.');
         		} else {
         			sb.append( (char)last16[index]);

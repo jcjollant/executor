@@ -78,6 +78,8 @@ public abstract class Exchange extends Thread {
 								System.out.println( this.name + " Sent Execution Report (" + bb.length + " bytes)");
 								System.out.println( this.name + " ExecutionReport: " + this.executionReport.toString());
 								System.out.println( Display.bytesToHex(bb, bb.length));
+								Thread.sleep( 1000);
+								clientSocket.close();
 							} catch(IOException ioe) {
 								System.out.println("Could not send response because " + ioe.getMessage());
 								break;
