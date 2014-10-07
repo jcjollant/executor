@@ -12,15 +12,15 @@ public class Message {
 	public int decodeInt32( int position) {
 		int val = 0;
 		if( this.endiannes == Endianness.BIG) {
-			val += ( int)(this.bytes[  position] & 0xFF) ;
-			val += ( int)(this.bytes[++position] & 0xFF) << 8;
-			val += ( int)(this.bytes[++position] & 0xFF) << 16;
-			val += ( int)(this.bytes[++position] & 0xFF) << 24;
-		} else {
 			val += ( int)(this.bytes[  position] & 0xFF) << 24;
 			val += ( int)(this.bytes[++position] & 0xFF) << 16;
 			val += ( int)(this.bytes[++position] & 0xFF) << 8;
 			val += ( int)(this.bytes[++position] & 0xFF);
+		} else {
+			val += ( int)(this.bytes[  position] & 0xFF) ;
+			val += ( int)(this.bytes[++position] & 0xFF) << 8;
+			val += ( int)(this.bytes[++position] & 0xFF) << 16;
+			val += ( int)(this.bytes[++position] & 0xFF) << 24;
 		}
 		return val;
 	}
@@ -28,15 +28,6 @@ public class Message {
 	public long decodeInt64( int position) {
 		long val = 0;
 		if( this.endiannes == Endianness.BIG) {
-			val += ( long)(this.bytes[  position] & 0xFF);
-			val += ( long)(this.bytes[++position] & 0xFF) << 8;
-			val += ( long)(this.bytes[++position] & 0xFF) << 16;
-			val += ( long)(this.bytes[++position] & 0xFF) << 24;
-			val += ( long)(this.bytes[++position] & 0xFF) << 32;
-			val += ( long)(this.bytes[++position] & 0xFF) << 40;
-			val += ( long)(this.bytes[++position] & 0xFF) << 48;
-			val += ( long)(this.bytes[++position] & 0xFF) << 56;
-		} else {
 			val += ( long)(this.bytes[  position] & 0xFF) << 56;
 			val += ( long)(this.bytes[++position] & 0xFF) << 48;
 			val += ( long)(this.bytes[++position] & 0xFF) << 40;
@@ -45,6 +36,15 @@ public class Message {
 			val += ( long)(this.bytes[++position] & 0xFF) << 16;
 			val += ( long)(this.bytes[++position] & 0xFF) << 8;
 			val += ( long)(this.bytes[++position] & 0xFF);
+		} else {
+			val += ( long)(this.bytes[  position] & 0xFF);
+			val += ( long)(this.bytes[++position] & 0xFF) << 8;
+			val += ( long)(this.bytes[++position] & 0xFF) << 16;
+			val += ( long)(this.bytes[++position] & 0xFF) << 24;
+			val += ( long)(this.bytes[++position] & 0xFF) << 32;
+			val += ( long)(this.bytes[++position] & 0xFF) << 40;
+			val += ( long)(this.bytes[++position] & 0xFF) << 48;
+			val += ( long)(this.bytes[++position] & 0xFF) << 56;
 		}
 		return val;
 	}
@@ -82,30 +82,21 @@ public class Message {
 	
 	public int encode( int val, int position) { 
 		if( this.endiannes == Endianness.BIG) {
-			this.bytes[  position] = (byte)( val & 0x000000FF);
-			this.bytes[++position] = (byte)((val & 0x0000FF00) >> 8);
-			this.bytes[++position] = (byte)((val & 0x00FF0000) >> 16);
-			this.bytes[++position] = (byte)((val & 0xFF000000) >> 24);
-		} else {
 			this.bytes[  position] = (byte)((val & 0xFF000000) >> 24);
 			this.bytes[++position] = (byte)((val & 0x00FF0000) >> 16);
 			this.bytes[++position] = (byte)((val & 0x0000FF00) >> 8);
 			this.bytes[++position] = (byte)( val & 0x000000FF);
+		} else {
+			this.bytes[  position] = (byte)( val & 0x000000FF);
+			this.bytes[++position] = (byte)((val & 0x0000FF00) >> 8);
+			this.bytes[++position] = (byte)((val & 0x00FF0000) >> 16);
+			this.bytes[++position] = (byte)((val & 0xFF000000) >> 24);
 		}
 		return position + 4;
 	}
 	
 	public int encode( long val, int position) { 
 		if( this.endiannes == Endianness.BIG) {
-			this.bytes[  position] = (byte)( val & 0x00000000000000FFL);
-			this.bytes[++position] = (byte)((val & 0x000000000000FF00L) >> 8);
-			this.bytes[++position] = (byte)((val & 0x0000000000FF0000L) >> 16);
-			this.bytes[++position] = (byte)((val & 0x00000000FF000000L) >> 24);
-			this.bytes[++position] = (byte)((val & 0x000000FF00000000L) >> 32);
-			this.bytes[++position] = (byte)((val & 0x0000FF0000000000L) >> 40);
-			this.bytes[++position] = (byte)((val & 0x00FF000000000000L) >> 48);
-			this.bytes[++position] = (byte)((val & 0xFF00000000000000L) >> 56);
-		} else {
 			this.bytes[  position] = (byte)((val & 0xFF00000000000000L) >> 56);
 			this.bytes[++position] = (byte)((val & 0x00FF000000000000L) >> 48);
 			this.bytes[++position] = (byte)((val & 0x0000FF0000000000L) >> 40);
@@ -114,6 +105,15 @@ public class Message {
 			this.bytes[++position] = (byte)((val & 0x0000000000FF0000L) >> 16);
 			this.bytes[++position] = (byte)((val & 0x000000000000FF00L) >> 8);
 			this.bytes[++position] = (byte)( val & 0x00000000000000FFL);
+		} else {
+			this.bytes[  position] = (byte)( val & 0x00000000000000FFL);
+			this.bytes[++position] = (byte)((val & 0x000000000000FF00L) >> 8);
+			this.bytes[++position] = (byte)((val & 0x0000000000FF0000L) >> 16);
+			this.bytes[++position] = (byte)((val & 0x00000000FF000000L) >> 24);
+			this.bytes[++position] = (byte)((val & 0x000000FF00000000L) >> 32);
+			this.bytes[++position] = (byte)((val & 0x0000FF0000000000L) >> 40);
+			this.bytes[++position] = (byte)((val & 0x00FF000000000000L) >> 48);
+			this.bytes[++position] = (byte)((val & 0xFF00000000000000L) >> 56);
 		}
 		return position + 8;
 	}

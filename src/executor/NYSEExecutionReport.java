@@ -64,8 +64,8 @@ public class NYSEExecutionReport extends ExecutionReport {
 		// BillingRate 6@63
 		
 		// ExecID 10@69
-		String execID = Display.randomString(10);
-		encode( execID, 69, 10);
+		this.execID = Display.randomString(10);
+		encode( this.execID, 69, 10);
 		
 		// Account 10@79
 		
@@ -75,10 +75,13 @@ public class NYSEExecutionReport extends ExecutionReport {
 		encode( this.clOrdID, 99, 17);
 	}
 	
-	public void populate(NYSENewOrder no) {
+	public void populate(NewOrder no) {
 		super.populate(no);
-		this.symbol = no.symbol;
-		this.lastPrice = no.price;
+		if( no instanceof NYSENewOrder) {
+			NYSENewOrder nno = (NYSENewOrder)no;
+			this.symbol = nno.symbol;
+			this.lastPrice = nno.price;
+		}
 	}
 	
 	

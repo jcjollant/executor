@@ -19,7 +19,7 @@ public abstract class ExecutionReport extends Message {
 	
 	@Override
 	public String toString() {
-		return "side=" + this.side + ", clOrdID=" + this.clOrdID + ", quantity=" + this.quantity;
+		return "side=" + this.side + ", clOrdID=" + this.clOrdID + ", quantity=" + this.quantity + ", orderID=" + this.orderID + ", execID=" + this.execID;
 	}
 	
 	protected int seqNum;
@@ -27,4 +27,6 @@ public abstract class ExecutionReport extends Message {
 	protected byte side;
 	protected String clOrdID;
 	protected int quantity;
+	protected String orderID;
+	protected String execID;
 }

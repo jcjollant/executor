@@ -13,23 +13,25 @@ public class LSEExecutionReport extends ExecutionReport {
 		encode( (byte)'8', 3);
 		// Client Order ID 20@21
 		encode( this.clOrdID, 21, 20);
-		// Order ID 12@41
-		String orderID = Display.randomString(12);
 		
-		encode( orderID, 41, 12);
+		// Order ID 12@41
+		this.orderID = Display.randomString(12);
+		encode( this.orderID, 41, 12);
 		
 		// Exec Type 1@53 Forced to "Trade"
 		encode( (byte)'F', 53);
 		
 		// Execution Report RefID 12@54
-		encode( Display.randomString(12), 54, 12);
+		this.execID = Display.randomString(12);
+		encode( this.execID, 54, 12);
 		
 		// OrdStatus 1@66 always filled=2
 		if( this.quantity == 666) {
-			encode( (byte)8, 66);
+			this.status = 8;
 		} else {
-			encode( (byte)2, 66);
+			this.status = 2;
 		}
+		encode( (byte)this.status, 66);
 		
 		// Order Reject Code 4@67 ignored
 		
@@ -74,18 +76,22 @@ public class LSEExecutionReport extends ExecutionReport {
 		// 12@139
 	}
 	
-	public void populate(LSENewOrder no) {
+	@Override
+	public void populate( NewOrder no) {
 		super.populate(no);
-		this.instrumentID = no.instrumentID;
-		this.executedPrice = no.price;
+		if( no instanceof LSENewOrder) {
+			LSENewOrder lno = (LSENewOrder)no;
+			this.instrumentID = lno.instrumentID;
+			this.executedPrice = lno.price;
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString() + ", instrumentID=" + this.instrumentID + ", executedPrice=" + this.executedPrice;
+		return super.toString() + ", instrumentID=" + this.instrumentID + ", executedPrice=" + this.executedPrice + ", status=" + this.status;
 	}
 	
 	protected int instrumentID;
 	protected long executedPrice;
-	
+	protected byte status;
 }

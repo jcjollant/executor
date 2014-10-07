@@ -58,7 +58,7 @@ public abstract class Exchange extends Thread {
 						if( bufferSize >= this.newOrder.getSize()) {
 							System.out.println( this.name + " Received New Order (" + bufferSize + " bytes)");
 							this.newOrder.decode( inputBuffer);
-							System.out.println( this.name + ", Order: " + this.newOrder.toString());
+							System.out.println( this.name + " Order: " + this.newOrder.toString());
 							System.out.println( Display.bytesToHex( inputBuffer, bufferSize));
 							
 							// copy remainder to the beginning of the buffer
